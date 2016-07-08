@@ -1,0 +1,27 @@
+#!/bin/bash
+
+users=`ls -l /home | grep -v "List" | awk '{print $9}'`
+
+if [ ! -z "$users" ]; then
+	OPTIONS=$users
+
+	echo "Select user for backup..."
+	echo "0 for exit"
+
+	select opt in $OPTIONS; do
+		if [ "$opt" > 0 ]; then
+			echo "You have selected $opt"	
+			echo "Creating Backup..."
+			tar -zcvf backup.tar.gz /home/$opt
+			sleep 5
+			echo "Backup created..."
+		else
+			echo "Exiting..."
+			sleep 1
+			clear
+			exit
+		fi
+	done
+else 
+	echo "No users in home directory"
+fi
